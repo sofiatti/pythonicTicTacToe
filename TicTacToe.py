@@ -22,66 +22,35 @@ def game_and_keys(line_matrix):
 
 def check_if_won(line_matrix):
     #Consecutive line
-    if array_equal(line_matrix[0:3], ["X","X","X"]):
-        print 'Game Over! X won!!!'
-        exit(0)
-    if array_equal(line_matrix[3:6], ["X","X","X"]):
-        print 'Game Over! X won!!!'
-        exit(0)
-    if array_equal(line_matrix[6:9], ["X","X","X"]):
-        print 'Game Over! X won!!!'
-        exit(0)
+    for p in ["X", "O"]:
+        if array_equal(line_matrix[0:3], [p,p,p]):
+            print 'Game Over! %s won!!!' %p
+            exit(0)
+        if array_equal(line_matrix[3:6], [p,p,p]):
+            print 'Game Over! %s won!!!' %p
+            exit(0)
+        if array_equal(line_matrix[6:9], [p,p,p]):
+            print 'Game Over! %s won!!!' %p
+            exit(0)
 
-    #Consecutive row
-    if array_equal([line_matrix[0], line_matrix[3], line_matrix[6]], ["X","X","X"]):
-        print 'Game Over! X won!!!'
-        exit(0)
-    if array_equal([line_matrix[1], line_matrix[4], line_matrix[7]], ["X","X","X"]):
-        print 'Game Over! X won!!!'
-        exit(0)
-    if array_equal([line_matrix[2], line_matrix[5], line_matrix[8]], ["X","X","X"]):
-        print 'Game Over! X won!!!'
-        exit(0)
+        #Consecutive row
+        if array_equal([line_matrix[0], line_matrix[3], line_matrix[6]], [p,p,p]):
+            print 'Game Over! %s won!!!' %p
+            exit(0)
+        if array_equal([line_matrix[1], line_matrix[4], line_matrix[7]], [p,p,p]):
+            print 'Game Over! %s won!!!' %p
+            exit(0)
+        if array_equal([line_matrix[2], line_matrix[5], line_matrix[8]], [p,p,p]):
+            print 'Game Over! %s won!!!' %p
+            exit(0)
 
-    #Consecutive Diagonals:
-    if array_equal([line_matrix[0], line_matrix[4], line_matrix[8]], ["X","X","X"]):
-        print 'Game Over! X won!!!'
-        exit(0)
-    if array_equal([line_matrix[2], line_matrix[4], line_matrix[6]], ["X","X","X"]):
-        print 'Game Over! X won!!!'
-        exit(0)
-
-
-    #Repeating all, but now for O:
-    #Consecutive line
-    if array_equal(line_matrix[0:3], ["Y","Y","Y"]):
-        print 'Game Over! O won!!!'
-        exit(0)
-    if array_equal(line_matrix[3:6], ["Y","Y","Y"]):
-        print 'Game Over! O won!!!'
-        exit(0)
-    if array_equal(line_matrix[6:9], ["Y","Y","Y"]):
-        print 'Game Over! O won!!!'
-        exit(0)
-
-    #Consecutive row
-    if array_equal([line_matrix[0], line_matrix[3], line_matrix[6]], ["Y","Y","Y"]):
-        print 'Game Over! O won!!!'
-        exit(0)
-    if array_equal([line_matrix[1], line_matrix[4], line_matrix[7]], ["Y","Y","Y"]):
-        print 'Game Over! O won!!!'
-        exit(0)
-    if array_equal([line_matrix[2], line_matrix[5], line_matrix[8]], ["Y","Y","Y"]):
-        print 'Game Over! O won!!!'
-        exit(0)
-
-    #Consecutive Diagonals:
-    if array_equal([line_matrix[0], line_matrix[4], line_matrix[8]], ["Y","Y","Y"]):
-        print 'Game Over! O won!!!'
-        exit(0)
-    if array_equal([line_matrix[2], line_matrix[4], line_matrix[6]], ["Y","Y","Y"]):
-        print 'Game Over! O won!!!'
-        exit(0)
+        #Consecutive Diagonals:
+        if array_equal([line_matrix[0], line_matrix[4], line_matrix[8]], [p,p,p]):
+            print 'Game Over! %s won!!!' %p
+            exit(0)
+        if array_equal([line_matrix[2], line_matrix[4], line_matrix[6]], [p,p,p]):
+            print 'Game Over! %s won!!!' %p
+            exit(0)
 
 def get_move(symbol, line_matrix):
     instructions = "You are " + symbol + ". Please enter your play [0-8]: "
