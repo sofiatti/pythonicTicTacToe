@@ -63,8 +63,8 @@ def get_move(symbol, line_matrix):
 
 def switch_player(current_player):
     if current_player == "X":
-        return "Y"
-    elif current_player == "Y":
+        return "O"
+    elif current_player == "O":
         return "X"
 
 def tic_tac_toe():
