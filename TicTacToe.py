@@ -40,11 +40,6 @@ def other_player(current_player):
         return "X"
 
 def tic_tac_toe():
-    '''
-    Play Tic-Tac-Toe!
-
-    Parameters:
-    '''
     print 'Welcome to Tic-Tac-Toe! '
 
     board = [' ' for x in range(9)]
