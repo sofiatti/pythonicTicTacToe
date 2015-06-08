@@ -1,5 +1,3 @@
-from sys import exit
-
 def game_and_keys(board):
     print '\n'
     print '  Game     Key'
@@ -16,15 +14,15 @@ def check_if_won(board):
             #Consecutive line
             board[0:3], board[3:6], board[6:9],
             #Consecutive Row:
-            board[0::3]], [board[1::3],[board[2::3]
+            board[0::3], board[1::3], board[2::3],
             #Consecutive Diagonals:
-            [board[0::4], [board[2::2]
+            board[0::4], board[2::2]
             ]
 
         for element in possibilities:
             if element == [p,p,p]:
-                print 'Game Over! %s won!!!' %p
-                exit(0)
+                return p
+    return False
 
 def get_move(symbol, board):
     instructions = "You are " + symbol + ". Please enter your play [0-8]: "
@@ -35,7 +33,7 @@ def get_move(symbol, board):
     else:
         return play
 
-def switch_player(current_player):
+def other_player(current_player):
     if current_player == "X":
         return "O"
     elif current_player == "O":
@@ -49,18 +47,17 @@ def tic_tac_toe():
     '''
     print 'Welcome to Tic-Tac-Toe! '
 
-    board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+    board = [' ' for x in range(9)]
     game_and_keys(board)
-
     current_player = "X"
-
     while ' ' in board:
         board[get_move(current_player, board)] = current_player
         game_and_keys(board)
-        check_if_won(board)
-        current_player = switch_player(current_player)
+        p = check_if_won(board)
+        if p:
+                print 'Game Over! %s won!!!' %p
+        current_player = other_player(current_player)
     else:
         print 'Whomp whomp, it\'s a tie!'
-        exit(0)
 
 tic_tac_toe()
