@@ -22,24 +22,24 @@ def game_and_keys(line_matrix):
 
 def check_if_won(line_matrix):
     for p in ["X", "O"]:
-        while False:
-        #Consecutive line
-            array_equal(line_matrix[0:3], [p,p,p])
-            array_equal(line_matrix[3:6], [p,p,p])
-            array_equal(line_matrix[6:9], [p,p,p])
+        possibilities = [
+            #Consecutive line
+            array_equal(line_matrix[0:3], [p,p,p]),
+            array_equal(line_matrix[3:6], [p,p,p]),
+            array_equal(line_matrix[6:9], [p,p,p]),
             #Consecutive row
-            array_equal([line_matrix[0], line_matrix[3], line_matrix[6]], [p,p,p])
-            array_equal([line_matrix[1], line_matrix[4], line_matrix[7]], [p,p,p])
-            array_equal([line_matrix[2], line_matrix[5], line_matrix[8]], [p,p,p])
+            array_equal([line_matrix[0], line_matrix[3], line_matrix[6]], [p,p,p]),
+            array_equal([line_matrix[1], line_matrix[4], line_matrix[7]], [p,p,p]),
+            array_equal([line_matrix[2], line_matrix[5], line_matrix[8]], [p,p,p]),
             #Consecutive Diagonals:
-            array_equal([line_matrix[0], line_matrix[4], line_matrix[8]], [p,p,p])
+            array_equal([line_matrix[0], line_matrix[4], line_matrix[8]], [p,p,p]),
             array_equal([line_matrix[2], line_matrix[4], line_matrix[6]], [p,p,p])
-    return (p)
+            ]
 
-def isWinner(line_matrix):
-    p = check_if_won(line_matrix)
-    print 'Game Over! %s won!!!' %p
-    exit(0)
+        for element in possibilities:
+            if element:
+                print 'Game Over! %s won!!!' %p
+                exit(0)
 
 def get_move(symbol, line_matrix):
     instructions = "You are " + symbol + ". Please enter your play [0-8]: "
@@ -72,7 +72,7 @@ def tic_tac_toe():
     while ' ' in line_matrix:
         line_matrix[get_move(current_player, line_matrix)] = current_player
         game_and_keys(line_matrix)
-        isWinner(line_matrix)
+        check_if_won(line_matrix)
         current_player = switch_player(current_player)
     else:
         print 'Whomp whomp, it\'s a tie!'
