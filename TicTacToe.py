@@ -1,50 +1,35 @@
 from sys import exit
 
-def array_equal(a_1, a_2):
-    if len(a_1) != len(a_2):
-        return False
-    else:
-        for idx, item in enumerate(a_1):
-            if item != a_2[idx]:
-                return False
-
-        return True
-
-def game_and_keys(line_matrix):
+def game_and_keys(board):
     print '\n'
     print '  Game     Key'
-    print ' ' + line_matrix[0] + '|' + line_matrix[1] + '|' + line_matrix[2] + '     0|1|2'
+    print ' ' + board[0] + '|' + board[1] + '|' + board[2] + '     0|1|2'
     print ' - - -    - - -'
-    print ' ' + line_matrix[3] + '|' + line_matrix[4] + '|' + line_matrix[5] + '     3|4|5'
+    print ' ' + board[3] + '|' + board[4] + '|' + board[5] + '     3|4|5'
     print ' - - -    - - -'
-    print ' ' + line_matrix[6] + '|' + line_matrix[7] + '|' + line_matrix[8] + '     6|7|8'
+    print ' ' + board[6] + '|' + board[7] + '|' + board[8] + '     6|7|8'
     print '\n'
 
-def check_if_won(line_matrix):
+def check_if_won(board):
     for p in ["X", "O"]:
         possibilities = [
             #Consecutive line
-            array_equal(line_matrix[0:3], [p,p,p]),
-            array_equal(line_matrix[3:6], [p,p,p]),
-            array_equal(line_matrix[6:9], [p,p,p]),
-            #Consecutive row
-            array_equal([line_matrix[0], line_matrix[3], line_matrix[6]], [p,p,p]),
-            array_equal([line_matrix[1], line_matrix[4], line_matrix[7]], [p,p,p]),
-            array_equal([line_matrix[2], line_matrix[5], line_matrix[8]], [p,p,p]),
+            board[0:3], board[3:6], board[6:9],
+            #Consecutive Row:
+            board[0::3]], [board[1::3],[board[2::3]
             #Consecutive Diagonals:
-            array_equal([line_matrix[0], line_matrix[4], line_matrix[8]], [p,p,p]),
-            array_equal([line_matrix[2], line_matrix[4], line_matrix[6]], [p,p,p])
+            [board[0::4], [board[2::2]
             ]
 
         for element in possibilities:
-            if element:
+            if element == [p,p,p]:
                 print 'Game Over! %s won!!!' %p
                 exit(0)
 
-def get_move(symbol, line_matrix):
+def get_move(symbol, board):
     instructions = "You are " + symbol + ". Please enter your play [0-8]: "
     play = int(raw_input(instructions))
-    while line_matrix[play] != ' ':
+    while board[play] != ' ':
         print 'Oops!  That\'s taken!  Try again...'
         play = int(raw_input(instructions))
     else:
@@ -64,15 +49,15 @@ def tic_tac_toe():
     '''
     print 'Welcome to Tic-Tac-Toe! '
 
-    line_matrix = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-    game_and_keys(line_matrix)
+    board = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+    game_and_keys(board)
 
     current_player = "X"
 
-    while ' ' in line_matrix:
-        line_matrix[get_move(current_player, line_matrix)] = current_player
-        game_and_keys(line_matrix)
-        check_if_won(line_matrix)
+    while ' ' in board:
+        board[get_move(current_player, board)] = current_player
+        game_and_keys(board)
+        check_if_won(board)
         current_player = switch_player(current_player)
     else:
         print 'Whomp whomp, it\'s a tie!'
