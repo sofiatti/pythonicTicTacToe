@@ -1,4 +1,4 @@
-def game_and_keys(board):
+def draw(board):
     print '\n'
     print '  Game     Key'
     print ' ' + board[0] + '|' + board[1] + '|' + board[2] + '     0|1|2'
@@ -43,14 +43,14 @@ def tic_tac_toe():
     print 'Welcome to Tic-Tac-Toe! '
 
     board = [' ' for x in range(9)]
-    game_and_keys(board)
+    draw(board)
     current_player = "X"
     while ' ' in board:
         board[get_move(current_player, board)] = current_player
         game_and_keys(board)
         p = check_if_won(board)
         if p:
-                print 'Game Over! %s won!!!' %p
+            print 'Game Over! %s won!!!' %p
         current_player = other_player(current_player)
     else:
         print 'Whomp whomp, it\'s a tie!'
