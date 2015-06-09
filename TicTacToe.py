@@ -24,6 +24,9 @@ def check_if_won(board):
                 return p
     return False
 
+corners = [1,3,7,9]
+middle = [5]
+
 def get_move(symbol, board):
     instructions = "You are " + symbol + ". Please enter your play [0-8]: "
     play = int(raw_input(instructions))
@@ -32,6 +35,29 @@ def get_move(symbol, board):
         play = int(raw_input(instructions))
     else:
         return play
+
+def get_bot_move(current_player, board):
+    hypothetical_board = list(board)
+    for idx, item in enumerate(board[1:]):
+        idx += 1
+        if item == ' ':
+            # check if bot can win in the next move
+            hypothetical_board[idx] = current_player
+            if check_if_won(hypothetical_board):
+                return idx
+            # check player can win in the next move
+            hypothetical_board[idx] = other_player(current_player)
+            if check_if_won(hypothetical_board):
+                return idx
+            # check if space in corners, take it
+            if idx in corners:
+                return idx
+            # check if space in middle, take it
+            if idx in middle:
+                return idx
+            # take what's left
+            else: 
+                return idx
 
 def other_player(current_player):
     if current_player == "X":
@@ -42,10 +68,10 @@ def other_player(current_player):
 def tic_tac_toe():
     print 'Welcome to Tic-Tac-Toe! '
 
-    board = [' ' for x in range(9)]
+    board = [' '] * 10
     draw(board)
     current_player = "X"
-    while ' ' in board:
+    while ' ' in board[1:]:
         board[get_move(current_player, board)] = current_player
         game_and_keys(board)
         p = check_if_won(board)
@@ -55,4 +81,4 @@ def tic_tac_toe():
     else:
         print 'Whomp whomp, it\'s a tie!'
 
-tic_tac_toe()
+# tic_tac_toe()
