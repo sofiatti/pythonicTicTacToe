@@ -1,22 +1,22 @@
 def draw(board):
     print '\n'
     print '  Game     Key'
-    print ' ' + board[0] + '|' + board[1] + '|' + board[2] + '     0|1|2'
+    print ' ' + board[1] + '|' + board[2] + '|' + board[3] + '     1|2|3'
     print ' - - -    - - -'
-    print ' ' + board[3] + '|' + board[4] + '|' + board[5] + '     3|4|5'
+    print ' ' + board[4] + '|' + board[5] + '|' + board[6] + '     4|5|6'
     print ' - - -    - - -'
-    print ' ' + board[6] + '|' + board[7] + '|' + board[8] + '     6|7|8'
+    print ' ' + board[7] + '|' + board[8] + '|' + board[9] + '     7|8|9'
     print '\n'
 
 def check_if_won(board):
     for p in ["X", "O"]:
         possibilities = [
             #Consecutive line
-            board[0:3], board[3:6], board[6:9],
+            board[1:4], board[4:7], board[7:10],
             #Consecutive Row:
-            board[0::3], board[1::3], board[2::3],
+            board[1::3], board[2::3], board[3::3],
             #Consecutive Diagonals:
-            board[0::4], board[2::2]
+            board[1::4], board[3::2]
             ]
 
         for element in possibilities:
@@ -25,7 +25,7 @@ def check_if_won(board):
     return False
 
 def get_move(symbol, board):
-    instructions = "You are " + symbol + ". Please enter your play [0-8]: "
+    instructions = "You are " + symbol + ". Please enter your play [1-9]: "
     play = int(raw_input(instructions))
     while board[play] != ' ':
         print 'Oops!  That\'s taken!  Try again...'
@@ -43,7 +43,7 @@ def other_player(current_player):
 def tic_tac_toe():
     print 'Welcome to Tic-Tac-Toe! '
 
-    board = [' '] * 9
+    board = [' '] * 10
     draw(board)
     current_player = "X"
     while ' ' in board:
