@@ -33,6 +33,7 @@ def get_move(symbol, board):
     else:
         return play
 
+
 def other_player(current_player):
     if current_player == "X":
         return "O"
@@ -42,12 +43,12 @@ def other_player(current_player):
 def tic_tac_toe():
     print 'Welcome to Tic-Tac-Toe! '
 
-    board = [' ' for x in range(9)]
+    board = [' '] * 9
     draw(board)
     current_player = "X"
     while ' ' in board:
         board[get_move(current_player, board)] = current_player
-        game_and_keys(board)
+        draw(board)
         p = check_if_won(board)
         if p:
             print 'Game Over! %s won!!!' %p
