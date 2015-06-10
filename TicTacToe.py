@@ -102,7 +102,6 @@ def tic_tac_toe():
             if ' ' not in board[1:]:
                 break
         board[get_move(current_player, board)] = current_player
-        draw(board)
         if check_if_won(board):
             print 'Game Over! %s won!!!' %current_player
         current_player = other_player(current_player)
