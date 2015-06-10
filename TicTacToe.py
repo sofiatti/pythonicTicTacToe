@@ -29,22 +29,34 @@ corners = [1,3,7,9]
 sides = [2,4,6,8]
 middle = [5]
 
-def get_move(symbol, board):
+def get_play(symbol, board):
     instructions = "You are " + symbol + ". Please enter your play [1-9]: "
-    try:
-        play = int(raw_input(instructions)
-        if play < 0 and play > 9:
-            raise Exception('Not a valid number. Please enter a number from 1 '
-                            'to 9')
+    try: 
+        play = int(raw_input(instructions))
     except ValueError:
-        print "Please enter a number from 1 to 9"  
+        print "Please enter a number from 1 to 9."  
+        return get_play(symbol, board)
+    try:
+        if play < 0 and play > 9:
+            raise Exception('Only 1 through 9 are valid.')
     except Exception, e:
-        print str(e)       
+        print str(e)
+        return get_play(symbol, board) 
     while board[play] != ' ':
         print 'Oops!  That\'s taken!  Try again...'
-        play = int(raw_input(instructions))
-    else:
-        return play
+        return get_play(symbol, board)
+    return play  
+
+def get_value_bot_or_friend():
+    bot_or_friend = raw_input("Who would you like to play? (bot/friend) ")
+    try:
+        if bot_or_friend not in ['bot', 'friend']:
+            raise Exception("Only 'bot' or 'friend' are valid inputs.")
+        else:
+            return bot_or_friend
+    except Exception, e:
+        str(e)
+        return get_value_bot_or_friend()    
 
 def next_step(idx, current_player, board):
     hypothetical_board = list(board)
@@ -93,21 +105,11 @@ def make_a_play(board, current_player):
     draw(board)
     p = check_if_won(board)
 
-def get_value_bot_or_friend():
-    bot_or_friend = raw_input("Who would you like to play? (bot/friend) ")
-    try:
-        if bot_or_friend not in ['bot', 'friend']:
-            raise Exception("Only 'bot' or 'friend' are valid inputs.")
-        else:
-            return bot_or_friend
-    except Exception, e:
-        str(e)
-        return get_value_bot_or_friend()
 
 
 def tic_tac_toe():
     print 'Welcome to Tic-Tac-Toe! '
-
+    bot_or_friend = get_value_bot_or_friend()
     board = [' '] * 10
     draw(board)
     current_player = "X"
@@ -120,7 +122,7 @@ def tic_tac_toe():
             current_player = other_player(current_player)
             if ' ' not in board[1:]:
                 break
-        board[get_move(current_player, board)] = current_player
+        board[get_play(current_player, board)] = current_player
         if check_if_won(board):
             print 'Game Over! %s won!!!' %current_player
         current_player = other_player(current_player)
