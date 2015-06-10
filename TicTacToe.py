@@ -1,34 +1,36 @@
+import sys
 def draw(board):
     print '\n'
     print '  Game     Key'
-    print ' ' + board[0] + '|' + board[1] + '|' + board[2] + '     0|1|2'
+    print ' ' + board[1] + '|' + board[2] + '|' + board[3] + '     1|2|3'
     print ' - - -    - - -'
-    print ' ' + board[3] + '|' + board[4] + '|' + board[5] + '     3|4|5'
+    print ' ' + board[4] + '|' + board[5] + '|' + board[6] + '     4|5|6'
     print ' - - -    - - -'
-    print ' ' + board[6] + '|' + board[7] + '|' + board[8] + '     6|7|8'
+    print ' ' + board[7] + '|' + board[8] + '|' + board[9] + '     7|8|9'
     print '\n'
 
 def check_if_won(board):
     for p in ["X", "O"]:
         possibilities = [
             #Consecutive line
-            board[0:3], board[3:6], board[6:9],
+            board[1:4], board[4:7], board[7:10],
             #Consecutive Row:
-            board[0::3], board[1::3], board[2::3],
+            board[1::3], board[2::3], board[3::3],
             #Consecutive Diagonals:
-            board[0::4], board[2::2]
+            board[1::4], board[3::2]
             ]
 
         for element in possibilities:
             if element == [p,p,p]:
-                return p
+                return True
     return False
 
 corners = [1,3,7,9]
+sides = [2,4,6,8]
 middle = [5]
 
 def get_move(symbol, board):
-    instructions = "You are " + symbol + ". Please enter your play [0-8]: "
+    instructions = "You are " + symbol + ". Please enter your play [1-9]: "
     play = int(raw_input(instructions))
     while board[play] != ' ':
         print 'Oops!  That\'s taken!  Try again...'
@@ -36,28 +38,42 @@ def get_move(symbol, board):
     else:
         return play
 
-def get_bot_move(current_player, board):
+def next_step(idx, current_player, board):
     hypothetical_board = list(board)
+    hypothetical_board[idx] = current_player
+    if check_if_won(hypothetical_board):
+        return idx
+
+def empty_spaces(board):
+    empty_idx = []
     for idx, item in enumerate(board[1:]):
         idx += 1
         if item == ' ':
-            # check if bot can win in the next move
-            hypothetical_board[idx] = current_player
-            if check_if_won(hypothetical_board):
-                return idx
-            # check player can win in the next move
-            hypothetical_board[idx] = other_player(current_player)
-            if check_if_won(hypothetical_board):
-                return idx
-            # check if space in corners, take it
-            if idx in corners:
-                return idx
-            # check if space in middle, take it
-            if idx in middle:
-                return idx
-            # take what's left
-            else: 
-                return idx
+            empty_idx.append(idx)
+    return empty_idx
+
+def get_bot_move(current_player, board):
+    possible_plays = empty_spaces(board)
+    for next_play in possible_plays:
+        # check if bot can win in the next move
+        play = next_step(next_play, current_player, board)
+        if play:
+            return play
+        # check player can win in the next move
+        opponent = other_player(str(current_player))
+        play = next_step(next_play, opponent, board)
+        if play:
+            return play
+    # check if space in corners, take it
+    for play in corners:
+        if play in possible_plays:
+            return play
+    for play in middle:
+        if play in possible_plays:
+            return play
+    for play in sides:
+        if play in possible_plays:
+            return play
 
 def other_player(current_player):
     if current_player == "X":
@@ -65,20 +81,31 @@ def other_player(current_player):
     elif current_player == "O":
         return "X"
 
+def make_a_play(board, current_player):
+    draw(board)
+    p = check_if_won(board)
+
+    
 def tic_tac_toe():
     print 'Welcome to Tic-Tac-Toe! '
-
+    bot_or_friend = raw_input("Who would you like to play? (bot/friend) ")
     board = [' '] * 10
     draw(board)
     current_player = "X"
     while ' ' in board[1:]:
+        if bot_or_friend == 'bot':
+            board[get_bot_move(current_player, board)] = current_player
+            draw(board)
+            if check_if_won(board):
+                print 'Game Over! %s won!!!' %current_player
+            current_player = other_player(current_player)
+            if ' ' not in board[1:]:
+                break
         board[get_move(current_player, board)] = current_player
-        game_and_keys(board)
-        p = check_if_won(board)
-        if p:
-            print 'Game Over! %s won!!!' %p
+        draw(board)
+        if check_if_won(board):
+            print 'Game Over! %s won!!!' %current_player
         current_player = other_player(current_player)
-    else:
-        print 'Whomp whomp, it\'s a tie!'
+    print 'Whomp whomp, it\'s a tie!'
 
-# tic_tac_toe()
+tic_tac_toe()
