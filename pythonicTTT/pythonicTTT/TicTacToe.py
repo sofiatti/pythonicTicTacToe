@@ -9,14 +9,14 @@ class Game():
         print '\n'
         print ' Game       Key'
         print ' ' + self.board[1] + '|' + self.board[2] + '|' + self.board[3] + '     1|2|3'
-        print ' - - -    - - -'
+        print ' - - -     - - -'
         print ' ' + self.board[4] + '|' + self.board[5] + '|' + self.board[6] + '     4|5|6'
-        print ' - - -    - - -'
+        print ' - - -     - - -'
         print ' ' + self.board[7] + '|' + self.board[8] + '|' + self.board[9] + '     7|8|9'
         print '\n'
 
-    @classmethod
-    def check_if_won(cls, board):
+    @staticmethod
+    def check_if_won(board):
         for p in ["X", "O"]:
             possibilities = [
                 #Consecutive line
@@ -37,27 +37,25 @@ class Game():
         try: 
             play = int(raw_input(instructions))
             if play < 1 or play > 9:
-                raise Exception('**Error** Only numbers 1 through 9 are valid.\n')
+                raise Exception('\n **Error** Only numbers 1 through 9 are valid.\n')
             elif self.board[play] != ' ':
-                raise Exception('**Error** Space is taken. Pick again.\n')
+                raise Exception('\n **Error** Space is taken. Pick again.\n')
         except ValueError:
-            print "**Error** Please enter a number from 1 to 9.\n" 
+            print "\n **Error** Please enter a number from 1 to 9.\n" 
             return self.get_play(symbol) 
         except Exception, e:
             print str(e)
             return self.get_play(symbol)
         return play
 
+    @staticmethod
     def get_value_bot_or_friend():
         bot_or_friend = raw_input("Who would you like to play? (bot/friend) ")
-        try:
-            if bot_or_friend not in ['bot', 'friend']:
-                raise Exception("Only 'bot' or 'friend' are valid inputs.")
-            else:
-                return bot_or_friend
-        except Exception, e:
-            str(e)
-            return get_value_bot_or_friend()    
+        if bot_or_friend not in ['bot', 'friend']:
+            print "\n **Error** Only 'bot' or 'friend' are valid inputs. \n"
+            return Game.get_value_bot_or_friend()
+        else:
+            return bot_or_friend    
 
     def next_step(self, idx, current_player):
         hypothetical_board = list(self.board)
@@ -95,8 +93,8 @@ class Game():
         for play in self.sides:
             if play in possible_plays:
                 return play
-    @classmethod
-    def other_player(cls, current_player):
+    @staticmethod
+    def other_player(current_player):
         if current_player == "X":
             return "O"
         elif current_player == "O":
@@ -107,8 +105,8 @@ class Game():
         p = Game.check_if_won(self.board)
         
     def start_game(self):
-        print 'Welcome to Tic-Tac-Toe! '
-        bot_or_friend = raw_input("Who would you like to play? (bot/friend) ")
+        print 'Welcome to Tic-Tac-Toe! \n'
+        bot_or_friend = Game.get_value_bot_or_friend()
         self.draw()
         current_player = "X"
         while ' ' in self.board[1:]:
@@ -126,3 +124,4 @@ class Game():
                 print 'Game Over! %s won!!!' %current_player
             current_player = Game.other_player(current_player)
         print 'Whomp whomp, it\'s a tie!'
+
