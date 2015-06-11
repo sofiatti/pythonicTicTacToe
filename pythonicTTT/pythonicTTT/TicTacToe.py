@@ -1,3 +1,5 @@
+import sys
+
 class Game():
     def __init__(self):
         self.board = [' '] * 10
@@ -103,9 +105,36 @@ class Game():
     def make_a_play(self, current_player):
         self.draw()
         p = Game.check_if_won(self.board)
-        
+
+    @staticmethod
+    def play_again():
+        play_again = raw_input("Would you like to play again? (y/N): ")
+        if play_again not in ['Y','y','N','n']:
+            print "\n **Error: Plase enter a valid input (y/n). \n"
+            return Game.play_again()
+        else:
+            return play_again
+
+    def end_game(self):
+        answer = Game.play_again()
+        if answer.lower() == 'n':
+            sys.exit()
+        else:
+            self.start_game()
+    
+    @staticmethod
+    def help():
+        print '........................................'
+        print 'To place your mark in the desired square'
+        print 'simply type the number corresponding to'
+        print 'the square on the grid. GOOD LUCK!!!' 
+        print 'Press Ctrl + C to quit'
+        print '........................................'
+        print '\n'
+
     def start_game(self):
-        print 'Welcome to Tic-Tac-Toe! \n'
+        print '\nWelcome to Tic-Tac-Toe! \n'
+        Game.help()
         bot_or_friend = Game.get_value_bot_or_friend()
         self.draw()
         current_player = "X"
@@ -116,12 +145,15 @@ class Game():
                 self.draw()
                 if Game.check_if_won(self.board):
                     print 'Game Over! %s won!!!' %current_player
+                    self.end_game()
                 current_player = Game.other_player(current_player)
                 if ' ' not in self.board[1:]:
                     break
             self.board[self.get_play(current_player)] = current_player
             if Game.check_if_won(self.board):
                 print 'Game Over! %s won!!!' %current_player
+                self.end_game()
             current_player = Game.other_player(current_player)
         print 'Whomp whomp, it\'s a tie!'
+        self.end_game()
 
