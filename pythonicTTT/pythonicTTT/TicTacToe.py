@@ -7,7 +7,7 @@ class Game():
 
     def draw(self):
         print '\n'
-        print '  Game     Key'
+        print ' Game       Key'
         print ' ' + self.board[1] + '|' + self.board[2] + '|' + self.board[3] + '     1|2|3'
         print ' - - -    - - -'
         print ' ' + self.board[4] + '|' + self.board[5] + '|' + self.board[6] + '     4|5|6'
@@ -36,19 +36,17 @@ class Game():
         instructions = "You are " + symbol + ". Please enter your play [1-9]: "
         try: 
             play = int(raw_input(instructions))
+            if play < 1 or play > 9:
+                raise Exception('**Error** Only numbers 1 through 9 are valid.\n')
+            elif self.board[play] != ' ':
+                raise Exception('**Error** Space is taken. Pick again.\n')
         except ValueError:
-            print "Please enter a number from 1 to 9."  
-            return self.get_play(symbol)
-        try:
-            play < 1 and play > 9
-            raise Exception('**Error** Only numbers 1 through 9 are valid.\n')
+            print "**Error** Please enter a number from 1 to 9.\n" 
+            return self.get_play(symbol) 
         except Exception, e:
             print str(e)
-            return self.get_play(symbol) 
-        while self.board[play] != ' ':
-            print 'Oops!  That\'s taken!  Try again...'
             return self.get_play(symbol)
-        return play  
+        return play
 
     def get_value_bot_or_friend():
         bot_or_friend = raw_input("Who would you like to play? (bot/friend) ")
@@ -128,7 +126,3 @@ class Game():
                 print 'Game Over! %s won!!!' %current_player
             current_player = Game.other_player(current_player)
         print 'Whomp whomp, it\'s a tie!'
-
-if __name__ == "__main__":
-    tic_tac_toe = Game()
-    tic_tac_toe.start_game()

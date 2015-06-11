@@ -1,0 +1,6 @@
+#!/Users/carolinesofiatti/anaconda/bin/python
+
+from pythonicTTT import TicTacToe
+
+tic_tac_toe = TicTacToe.Game()
+tic_tac_toe.start_game()
